@@ -1,0 +1,62 @@
+env:
+  seed: 42
+  name: WorkflowScheduling-v3
+  traffic_pattern: CONSTANT
+
+  gamma_train: 5.0
+  gamma_test: 1.0
+  dynamic_gamma: true
+  dynamic_gamma_wf: true
+
+  wf_size: S
+  dataGen: 500000
+  wf_num: 10
+  wf_num_test: 10
+  evalNum: 1
+  validNum: 30
+  generateWay: rotation
+
+encoder:
+  output_dim: 128
+  d_model: 32
+  dropout: 0.1
+
+model:
+  hidden_dim: 128
+
+training:
+  outer_iters: 1000
+  rollout_episodes_per_iter: 10
+
+  gamma_vm_td: 0.99
+  delta: 0.2  # Depending on the learning and scheduling scenario, values such as 0.1 or others may work better.
+  epsilon: 0.10
+  fallback_top_ratio: 0.2  # Depending on the learning and scheduling scenario, values such as 0.1 or others may work better.
+
+  stage1_updates_per_iter: 32
+  stage2_updates_per_iter: 64
+
+  batch_size_stage1: 32
+  batch_size_stage2: 32
+
+  vm_target_tau: 0.01
+  grad_clip: 5.0
+
+  eval_freq: 20
+  save_freq: 20
+
+constraint:
+  relative_deadline_gap: 0.10
+
+evaluation:
+  validation_seed: 41
+  test_seed: 42
+
+optim:
+  lr_stage1: 0.0005
+  lr_stage2: 0.001
+  weight_decay: 0.0
+
+runtime:
+  log: true
+  device: Null
